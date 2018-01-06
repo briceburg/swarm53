@@ -23,6 +23,23 @@ A | `alpha.swarms.acme.tld.` | 18.12.6.0.1 18.12.6.0.2 18.12.6.0.3 18.12.6.0.4 1
 A | `managers.alpha.swarms.acme.tld.` | 18.12.6.0.1 18.12.6.0.2 | Public IP of all managers
 
 
+### monitoring for topology changes
+
+The swarm53 container can be invoked in *monitor* mode. When the swarm topology
+changes, swarm53 will update DNS records after a brief 30 second delay to allow
+instance termination.
+
+* Set the _entrypoint_ to `swarm53-monitor` enable monitor mode.
+* Bind the **required** host's docker socket.
+* Run on a manager node only.
+
+```
+docker run --rm .... \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  --entrypoint swarm53-monitor \
+  swarm53
+```
+
 ## requirements
 
 #### AWS tags on all swarm EC2 instances
